@@ -1,8 +1,23 @@
-export default function Home() {
+import { Container } from '@/components/Container';
+import { Header } from '@/components/Header';
+import { PostFeatured } from '@/components/PostFeatured';
+import { PostsList } from '@/components/PostsList';
+import { SpinLoader } from '@/components/SpinLoader';
+
+import { Suspense } from 'react';
+
+export default async function HomePage() {
   return (
-    <div className="container">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">This is a simple Next.js application.</p>
-    </div>
+    <Container>
+      <Header />
+      <PostFeatured />
+      <Suspense fallback={<SpinLoader />}>
+        <PostsList />
+      </Suspense>
+
+      <footer>
+        <p className='text-6xl font-bold text-center py-8'>Footer</p>
+      </footer>
+    </Container>
   );
 }
