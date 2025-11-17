@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   return (
     <>
-      <PostFeatured />
-      <Suspense fallback={<SpinLoader />}>
+      <Suspense fallback={<SpinLoader className='min-h-20 mb-16' />}>
+        <PostFeatured />
         <PostsList />
       </Suspense>
     </>
