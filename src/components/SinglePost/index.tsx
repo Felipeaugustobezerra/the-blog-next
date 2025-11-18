@@ -17,12 +17,13 @@ export async function SinglePost({ slug }: SinglePostProps) {
         <Image
           className='rounded-xl mb-6'
           src={post.coverImageUrl}
-          width={1024}
-          height={720}
+          width={500}
+          height={500}
           alt={post.title}
         ></Image>
 
         <PostHeading url={`/post/${post.slug}`}>{post.title}</PostHeading>
+
         <p>
           {post.author} | <PostDate dateTime={post.createdAt} />
         </p>

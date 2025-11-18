@@ -15,8 +15,8 @@ export function PostCoverImage({ href, src, alt, title }: PostCoverImageProps) {
         title={title}
         className='group-hover:scale-105 transition w-full h-full object-cover object-position-center'
         src={src}
-        width={1200}
-        height={720}
+        width={500}
+        height={500}
         alt={alt}
         priority
       />
