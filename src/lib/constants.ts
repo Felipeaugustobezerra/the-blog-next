@@ -1,1 +1,1 @@
-export const SIMULATE_WAIT_IN_MS = 10000;
+export const SIMULATE_WAIT_IN_MS = 0;
