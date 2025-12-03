@@ -6,6 +6,8 @@ import { Suspense } from 'react';
 
 import { Metadata } from 'next';
 
+export const dynamic = 'force-static';
+
 export const metadata: Metadata = {
   title: 'Posts',
   description: 'Welcome to the blog homepage',

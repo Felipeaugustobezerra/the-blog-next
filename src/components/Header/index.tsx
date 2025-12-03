@@ -12,7 +12,7 @@ export function Header() {
           'lg:text-7xl/normal xl:py-12',
         )}
       >
-        <Link href='#'>Apple Magazine</Link>
+        <Link href='/'>Apple Magazine</Link>
       </h1>
     </header>
   );
