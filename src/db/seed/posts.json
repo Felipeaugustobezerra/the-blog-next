@@ -1,7 +1,7 @@
 {
   "posts": [
     {
-      "id": "1a2b3c4d-apple-ios261",
+      "id": "1",
       "title": "Apple lança iOS 26.1, macOS Tahoe 26.1 e outras atualizações",
       "slug": "apple-lanca-ios-26-1-macos-tahoe-26-1",
       "excerpt": "A Apple lançou a versão 26.1 de vários sistemas operacionais, incluindo iOS, macOS, watchOS, tvOS e visionOS.",
@@ -13,19 +13,19 @@
       "author": "Redação Apple News"
     },
     {
-      "id": "2b3c4d5e-apple-issey-pocket",
+      "id": "2",
       "title": "Apple e Issey Miyake lançam acessório iPhone Pocket",
       "slug": "apple-issey-miyake-iphone-pocket",
       "excerpt": "Em parceria com a marca japonesa Issey Miyake, a Apple lança um acessório para iPhone inspirado em tecido minimalista.",
       "content": "A Apple lançou um acessório de edição limitada chamado “iPhone Pocket” em colaboração com a marca Issey Miyake. Inspirado no conceito de “um pedaço de tecido”, o pocket é feito em tricô 3D e está disponível em dois tamanhos: uma versão longa (crossbody) por US$ 230 e uma curta por US$ 150.",
       "coverImageUrl": "/images/apple_issey_pocket.jpg",
-      "published": true,
+      "published": false,
       "createdAt": "2025-11-11T12:00:00Z",
       "updatedAt": "2025-11-11T12:00:00Z",
       "author": "Redação Apple News"
     },
     {
-      "id": "3c4d5e6f-apple-ai-integration",
+      "id": "3",
       "title": "Tim Cook anuncia mais integrações de IA no Apple Intelligence",
       "slug": "tim-cook-mais-ias-no-apple-intelligence",
       "excerpt": "A Apple planeja integrar modelos de IA de terceiros no seu sistema Apple Intelligence, incluindo Gemini e Anthropic.",
@@ -37,7 +37,7 @@
       "author": "Redação Apple News"
     },
     {
-      "id": "4d5e6f7g-apple-us-manufacturing",
+      "id": "4",
       "title": "Apple promete US$ 100 bilhões para manufatura nos EUA",
       "slug": "apple-100-bilhoes-us-manufactura-eua",
       "excerpt": "A empresa planeja investir grande soma para reforçar a produção doméstica nos Estados Unidos.",
@@ -49,7 +49,7 @@
       "author": "Redação Apple News"
     },
     {
-      "id": "5e6f7g8h-apple-air2-cancelado",
+      "id": "5",
       "title": "Apple cancela iPhone Air 2 após vendas fracas",
       "slug": "apple-cancela-iphone-air-2",
       "excerpt": "Fontes afirmam que a Apple suspendeu o desenvolvimento do iPhone Air 2 por causa de vendas decepcionantes do modelo original.",

@@ -1,7 +1,7 @@
 import { findAllPostAdmin } from '@/lib/post/queries/admin';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { Trash2Icon } from 'lucide-react';
+import DeletePostButton from '../Admin/DeletePostButton';
 
 export default async function PostsListAdmin() {
   const posts = await findAllPostAdmin();
@@ -24,18 +24,7 @@ export default async function PostsListAdmin() {
                 (Not Published)
               </span>
             )}
-            <button
-              className={clsx(
-                'text-red-500 cursor-pointer',
-                '[&_svg]:w-4 [&_svg]:h-4',
-                'hover:scale-120 hover:text-red-700',
-                'transition-transform',
-              )}
-              aria-label={`Delete Post: ${post.title}`}
-              title={`Delete Post: ${post.title}`}
-            >
-              <Trash2Icon />
-            </button>
+            <DeletePostButton id={post.id} title={post.title} />
           </div>
         );
       })}
