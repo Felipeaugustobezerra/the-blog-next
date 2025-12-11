@@ -2,10 +2,13 @@ import { postRepository } from '@/repositories/post';
 import { PostCoverImage } from '../PostCoverImage';
 import { PostSummary } from '../PostSummary';
 import { findAllPublicPostCached } from '@/lib/post/queries/public';
+import ErrorMessage from '../ErrorMessage';
 
 export async function PostsList() {
   const posts = await findAllPublicPostCached();
-
+  if (posts.length <= 1) {
+    return null;
+  }
   return (
     <div className='grid grid-cols-1 mb-16 gap-8 sm:grid-cols-2 lg:grid-cols-3'>
       {posts.slice(1).map(post => {
