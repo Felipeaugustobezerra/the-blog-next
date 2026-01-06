@@ -27,7 +27,7 @@ export function MarkdownEditor({
   const id = useId();
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col gap-2' data-color-mode='light'>
       {labelText && (
         <label className='text-sm' htmlFor={id}>
           {labelText}
@@ -41,10 +41,10 @@ export function MarkdownEditor({
           if (value === undefined) return;
           setValue(value);
         }}
-        height={400}
-        extraCommands={[]}
-        preview='edit'
+        height={500}
+        // extraCommands={[]}
         hideToolbar={disabled}
+        enableScroll={true}
         textareaProps={{
           id,
           name: textAreaName,

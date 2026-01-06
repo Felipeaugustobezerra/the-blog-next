@@ -1,7 +1,7 @@
 'use client';
 import { ImageUp } from 'lucide-react';
 import { Button } from '../../Button/index';
-import { useRef, useTransition } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import { IMAGE_UPLOAD_MAX_SIZE } from '@/lib/constants';
 import { toast } from 'react-toastify';
 import { uploadImageAction } from '@/actions/post/upload/Upload-image-action';
@@ -9,25 +9,36 @@ import { uploadImageAction } from '@/actions/post/upload/Upload-image-action';
 export function ImageUploader() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, startTransition] = useTransition();
+  const [imgUrl, setImgUrl] = useState('');
 
   function handleChooseFile() {
-    if (!fileInputRef.current) return;
+    if (!fileInputRef.current) {
+      setImgUrl('');
+      return;
+    }
     fileInputRef.current.click();
   }
   function handleChangeFile() {
     toast.dismiss();
-    if (!fileInputRef.current) return;
+    if (!fileInputRef.current) {
+      setImgUrl('');
+      return;
+    }
 
     const fileInput = fileInputRef.current;
     const file = fileInput?.files?.[0];
 
-    if (!file) return;
+    if (!file) {
+      setImgUrl('');
+      return;
+    }
     if (file.size > IMAGE_UPLOAD_MAX_SIZE) {
       const readableMaxSize = IMAGE_UPLOAD_MAX_SIZE / 1024;
       toast.error(
         `A imagem é muito grande. O tamanho máximo é ${readableMaxSize} KB.`,
       );
       fileInput.value = ''; // reset file input
+      setImgUrl('');
       return;
     }
     const formData = new FormData();
@@ -39,9 +50,11 @@ export function ImageUploader() {
       if (result.error) {
         toast.error(`Erro ao fazer upload da imagem: ${result.error}`);
         fileInput.value = ''; // reset file input
+        setImgUrl('');
         return;
       }
-      toast.success(result.url);
+      setImgUrl(result.url);
+      toast.success('Image uploaded successfully!');
     });
 
     fileInput.value = ''; // reset file input
@@ -54,11 +67,21 @@ export function ImageUploader() {
         className='self-start'
         variant='default'
         size='md'
+        disabled={isUploading}
       >
         <ImageUp />
         Upload Image
       </Button>
 
+      {!!imgUrl && (
+        <div className='flex flex-col gap-2 max-w-xl'>
+          <p>
+            <b>URL:</b> {imgUrl}
+          </p>
+          {/*  eslint-disable-next-line  */}
+          <img src={imgUrl} />
+        </div>
+      )}
       <input
         onChange={handleChangeFile}
         ref={fileInputRef}
