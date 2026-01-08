@@ -1,9 +1,17 @@
-'use client';
+'use server';
 
+import { drizzleDb } from '@/db/drizzle';
+import { postsTable } from '@/db/drizzle/schemas';
 import { makePartialPublicPost, PublicPostDto } from '@/dto/post/dto';
 import { PostCreateSchema } from '@/lib/post/validations';
 import { PostModel } from '@/models/post/post-model';
 import { getZodErrorMessages } from '@/utils/get-zod-error-message';
+import { makeSlugFromText } from '@/utils/make-slug-from-text';
+import { revalidateTag } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { toast } from 'react-toastify';
+
+import { v4 as uuidV4 } from 'uuid';
 
 type CreatePostActionState = {
   formState: PublicPostDto;
@@ -33,14 +41,14 @@ export async function createPostAction(
   const validatedData = zodParsedObj.data;
   const newPost: PostModel = {
     ...validatedData,
-    id: Date.now().toString(),
+    id: uuidV4(),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    slug: Math.random().toString(36).substring(2, 15), // gerar slug simples aleatorio
+    slug: makeSlugFromText(validatedData.title),
+    // gerar slug simples aleatorio
   };
 
-  return {
-    formState: newPost,
-    errors: [],
-  };
+  await drizzleDb.insert(postsTable).values(newPost);
+  revalidateTag('posts');
+  redirect(`/admin/post/${newPost.id}`);
 }
