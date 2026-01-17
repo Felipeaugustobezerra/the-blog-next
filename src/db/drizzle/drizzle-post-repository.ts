@@ -116,3 +116,4 @@ export class DrizzlePostRepository implements PostRepository {
     };
   }
 }
+//Criando métodos create, delete e update no repositório

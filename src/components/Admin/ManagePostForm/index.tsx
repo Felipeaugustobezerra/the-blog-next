@@ -8,18 +8,40 @@ import { makePartialPublicPost, PublicPostDto } from '@/dto/post/dto';
 import { createPostAction } from '@/actions/post/create-post-action';
 import { Button } from '@/components/Button';
 import { toast } from 'react-toastify';
+import { updatePostAction } from '@/actions/post/update-post-action';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-type ManagePostFormProps = {
+type ManagePostFormUpdateProps = {
+  mode: 'update';
   publicPost: PublicPostDto;
 };
+type ManagePostFormCreateProps = {
+  mode: 'create';
+};
+type ManagePostFormProps =
+  | ManagePostFormUpdateProps
+  | ManagePostFormCreateProps;
 
-export function ManagePostForm({ publicPost }: ManagePostFormProps) {
+export function ManagePostForm(props: ManagePostFormProps) {
+  const { mode } = props;
+  const searchParams = useSearchParams();
+  const created = searchParams.get('created');
+  const router = useRouter();
+
+  let publicPost;
+  if (mode === 'update') {
+    publicPost = props.publicPost;
+  }
+  const actionsMap = {
+    create: createPostAction,
+    update: updatePostAction,
+  };
   const initialState = {
     formState: makePartialPublicPost(publicPost),
     errors: [],
   };
   const [state, action, isPending] = useActionState(
-    createPostAction,
+    actionsMap[mode],
     initialState,
   );
   useEffect(() => {
@@ -29,6 +51,21 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
       });
     }
   }, [state.errors]);
+  useEffect(() => {
+    if (state.success) {
+      toast.dismiss();
+      toast.success('Post updated successfully!');
+    }
+  }, [state.success]);
+  useEffect(() => {
+    if (created === '1') {
+      toast.dismiss();
+      toast.success('Post created successfully!');
+      const url = new URL(window.location.href);
+      url.searchParams.delete('created');
+      router.replace(url.toString());
+    }
+  }, [created, router]);
 
   const { formState } = state;
   const [contentValue, setContentValue] = useState(publicPost?.content || '');
@@ -42,6 +79,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           placeholder='Generating Ids automatically'
           type='text'
           defaultValue={formState?.id}
+          disabled={isPending}
           readOnly
         />
         <InputText
@@ -50,6 +88,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           placeholder='Generating slugs automatically'
           type='text'
           defaultValue={formState?.slug}
+          disabled={isPending}
           readOnly
         />
         <InputText
@@ -58,6 +97,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           placeholder="Author's Name"
           type='text'
           defaultValue={formState?.author}
+          disabled={isPending}
         />
         <InputText
           labelText='Title'
@@ -65,6 +105,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           placeholder='Post Title'
           type='text'
           defaultValue={formState?.title}
+          disabled={isPending}
         />
         <InputText
           labelText='Excerpt'
@@ -72,22 +113,24 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           placeholder='Post Excerpt'
           type='text'
           defaultValue={formState?.excerpt}
+          disabled={isPending}
         />
 
         <MarkdownEditor
           labelText='Conteúdo'
-          disabled={false}
           textAreaName='content'
           value={contentValue}
           setValue={setContentValue}
+          disabled={isPending}
         />
-        <ImageUploader />
+        <ImageUploader disabled={isPending} />
         <InputText
           labelText='Cover Image URL'
           name='coverImageUrl'
           placeholder='Post Cover Image URL'
           type='text'
           defaultValue={formState?.coverImageUrl}
+          disabled={isPending}
         />
 
         <InputCheckbox
@@ -95,9 +138,12 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           name='published'
           type='checkbox'
           defaultChecked={formState?.published}
+          disabled={isPending}
         />
         <div className='mt-4'>
-          <Button type='submit'>Post</Button>
+          <Button disabled={isPending} type='submit'>
+            Post
+          </Button>
         </div>
       </div>
     </form>

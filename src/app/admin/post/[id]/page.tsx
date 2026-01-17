@@ -19,7 +19,7 @@ export default async function AdminPostIdPage({
   return (
     <div className='flex flex-col gap-6'>
       <h1 className='text-xl font-bold'>Edit Post</h1>
-      <ManagePostForm publicPost={publicPost} />
+      <ManagePostForm mode='update' publicPost={publicPost} />
     </div>
   );
 }

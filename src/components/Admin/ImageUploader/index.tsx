@@ -5,8 +5,9 @@ import { useRef, useState, useTransition } from 'react';
 import { IMAGE_UPLOAD_MAX_SIZE } from '@/lib/constants';
 import { toast } from 'react-toastify';
 import { uploadImageAction } from '@/actions/post/upload/Upload-image-action';
+type ImageUploaderProps = { disabled?: boolean };
 
-export function ImageUploader() {
+export function ImageUploader({ disabled = false }: ImageUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, startTransition] = useTransition();
   const [imgUrl, setImgUrl] = useState('');
@@ -67,7 +68,7 @@ export function ImageUploader() {
         className='self-start'
         variant='default'
         size='md'
-        disabled={isUploading}
+        disabled={isUploading || disabled}
       >
         <ImageUp />
         Upload Image
@@ -89,6 +90,7 @@ export function ImageUploader() {
         name='File'
         type='file'
         accept='image/*'
+        disabled={isUploading || disabled}
       />
     </div>
   );
