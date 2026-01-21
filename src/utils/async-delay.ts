@@ -1,6 +1,6 @@
 import { logColor } from './log-color';
 
-export async function asyncdelay(ms: number = 0, verbose = false) {
+export async function asyncDelay(ms: number = 0, verbose = false) {
   if (ms <= 0) return;
 
   if (verbose) {

@@ -1,13 +1,10 @@
 'use server';
 
-import {
-  IMAGE_SERVER_URL,
-  IMAGE_UPLOAD_DIRECTORY,
-  IMAGE_UPLOAD_MAX_SIZE,
-} from '@/lib/constants';
-import { asyncdelay } from '@/utils/async-delay';
 import { mkdir, writeFile } from 'fs/promises';
 import { extname, resolve } from 'path';
+
+const uploadMaxSize =
+  Number(process.env.NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE) || 921600;
 
 type UploadImageActionResult = {
   url: string;
@@ -20,7 +17,7 @@ export async function uploadImageAction(
   //TODO CHECK USER AUTHENTICATION
 
   //TODO Remove delay
-  await asyncdelay(5000, true);
+  // await asyncdelay(5000, true);
   const makeResult = ({ url = '', error = '' }) => ({ url, error });
 
   if (!(formData instanceof FormData)) {
@@ -31,7 +28,7 @@ export async function uploadImageAction(
   if (!(file instanceof File)) {
     return makeResult({ error: 'Nenhum arquivo enviado' });
   }
-  if (file.size > IMAGE_UPLOAD_MAX_SIZE) {
+  if (file.size > uploadMaxSize) {
     return makeResult({ error: 'Arquivo muito grande' });
   }
 
@@ -41,12 +38,8 @@ export async function uploadImageAction(
 
   const imageExtension = extname(file.name);
   const uniqueImageName = `${Date.now()}-${imageExtension}`;
-
-  const uploadFullPath = resolve(
-    process.cwd(),
-    'public',
-    IMAGE_UPLOAD_DIRECTORY,
-  );
+  const uploadDir = process.env.IMAGE_UPLOAD_DIRECTORY || 'uploads';
+  const uploadFullPath = resolve(process.cwd(), 'public', uploadDir);
 
   await mkdir(uploadFullPath, { recursive: true });
 
@@ -56,7 +49,9 @@ export async function uploadImageAction(
   const fileFullPath = resolve(uploadFullPath, uniqueImageName);
 
   await writeFile(fileFullPath, buffer);
-  const url = `${IMAGE_SERVER_URL}/${uniqueImageName}`;
+  const imageServerUrl =
+    process.env.IMAGE_SERVER_URL || 'http://localhost:3000/uploads';
+  const url = `${imageServerUrl}/${uniqueImageName}`;
   console.log('Image uploaded to:', url);
 
   return makeResult({ url });
