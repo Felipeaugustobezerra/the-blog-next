@@ -33,8 +33,8 @@ export function LoginForm() {
         <InputText
           type='text'
           name='username'
-          labelText='Usuário'
-          placeholder='Seu usuário'
+          labelText='User'
+          placeholder='Your username'
           disabled={isPending}
           defaultValue={state.username}
         />
@@ -42,8 +42,8 @@ export function LoginForm() {
         <InputText
           type='password'
           name='password'
-          labelText='Senha'
-          placeholder='Sua senha'
+          labelText='Password'
+          placeholder='Your password'
           disabled={isPending}
         />
 
